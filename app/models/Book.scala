@@ -37,6 +37,16 @@ object Book {
     }
   }
 
+  def findBooksForUser(username: String) =  books.filter(el => el.author.equals(username))
+
+  def findById(id: String, username: String) : Option[Book] = {
+    books.filter(el => el.id.equals(Option.apply(id)) && el.author == username) match {
+      case Nil => Option.empty
+      case el::Nil => Option(el)
+      case el::tail => throw new Exception
+    }
+  }
+
   def canUserAccessBook(user: String, book: Book) = book.author == user
 
   def setId(book: Book) : Book = Book(book.name, book.author, Option(UUID.randomUUID.toString))

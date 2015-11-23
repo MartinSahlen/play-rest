@@ -9,8 +9,8 @@ import play.api.mvc.Results._
 
 object BooksController extends Controller {
 
-  def listBooks = (UserAction andThen PermissionCheckAction) {
-    Ok(Json.toJson(books))
+  def listBooks = (UserAction andThen PermissionCheckAction) { request =>
+    Ok(Json.toJson(findBooksForUser(request.username.get)))
   }
 
   def saveBook = (UserAction andThen PermissionCheckAction)(BodyParsers.parse.json) { request =>
@@ -60,8 +60,8 @@ class BookRequest[A](val book: Book, request: UserRequest[A]) extends WrappedReq
 
 object BookPermissionCheckAction extends ActionFilter[BookRequest] {
   def filter[A](request: BookRequest[A]) = Future.successful {
-    if (request.username.orNull != "martin")
-      Option(Forbidden(Json.obj("message" -> "forbidden")))
+    if (request.username.get != request.book.author)
+      Option(Forbidden(Json.obj("message" -> "forbidden, you did not write the book")))
     else
       None
   }
