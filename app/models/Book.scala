@@ -59,7 +59,7 @@ object Book {
     books = books :+ setId(book)
     DB.withConnection { implicit c =>
       SQL("insert into book(name, author, id) values ({name}, {author}, {id})")
-        .on('name -> books.last.name, 'author -> books.last.author, 'id -> books.last.id).executeInsert();
+        .on('name -> books.last.name, 'author -> books.last.author, 'id -> books.last.id).execute();
     }
     books.last
   }
