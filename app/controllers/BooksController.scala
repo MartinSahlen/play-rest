@@ -9,16 +9,15 @@ import play.api.mvc.Results._
 
 object BooksController extends Controller {
 
-  def listBooks = (UserAction andThen PermissionCheckAction) { request =>
+  def listBooks = (UserAction andThen AuthenticationCheckAction) { request =>
     Ok(Json.toJson(findBooksForUser(request.username.get)))
   }
 
-  def saveBook = (UserAction andThen PermissionCheckAction)(BodyParsers.parse.json) { request =>
+  def saveBook = (UserAction andThen AuthenticationCheckAction)(BodyParsers.parse.json) { request =>
     val b = request.body.validate[Book]
     b match {
       case JsSuccess(book, _) =>
-        addBook(book)
-        Ok(Json.obj("status" -> "OK"))
+        Created(Json.toJson(addBook(book)))
       case errors@JsError(_) =>
         BadRequest(Json.obj("message" -> JsError.toJson(errors)))
     }
@@ -39,7 +38,7 @@ object BooksController extends Controller {
 
 class UserRequest[A](val username: Option[String], request: Request[A]) extends WrappedRequest[A](request)
 
-object PermissionCheckAction extends ActionFilter[UserRequest] {
+object AuthenticationCheckAction extends ActionFilter[UserRequest] {
   def filter[A](request: UserRequest[A]) = Future.successful {
     if (request.username.orNull != "martin")
       Option(Forbidden(Json.obj("message" -> "forbidden")))

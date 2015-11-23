@@ -51,5 +51,8 @@ object Book {
 
   def setId(book: Book) : Book = Book(book.name, book.author, Option(UUID.randomUUID.toString))
 
-  def addBook(book: Book) = books = books :+ setId(book)
+  def addBook(book: Book) : Book = {
+    books = books :+ setId(book)
+    books.last
+  }
 }
