@@ -4,6 +4,7 @@
 
 # Home page
 GET      /books                           controllers.BooksController.listBooks
+GET      /books/:bookId                   controllers.BooksController.findBook(bookId: String)
 POST     /books                           controllers.BooksController.saveBook
 
 # Map static resources from the /public folder to the /assets URL path
