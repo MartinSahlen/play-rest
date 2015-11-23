@@ -2,6 +2,10 @@ package models
 
 import java.util.UUID
 
+import anorm._
+import play.api.db.DB
+import play.api.Play.current
+
 import play.api.libs.json._
 import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
@@ -53,6 +57,10 @@ object Book {
 
   def addBook(book: Book) : Book = {
     books = books :+ setId(book)
+    DB.withConnection { implicit c =>
+      SQL("insert into book(name, author, id) values ({name}, {author}, {id})")
+        .on('name -> books.last.name, 'author -> books.last.author, 'id -> books.last.id).executeInsert();
+    }
     books.last
   }
 }

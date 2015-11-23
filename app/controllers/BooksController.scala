@@ -6,7 +6,6 @@ import play.api.mvc._
 import scala.concurrent.Future
 import play.api.mvc.Results._
 
-
 object BooksController extends Controller {
 
   def listBooks = (UserAction andThen AuthenticationCheckAction) { request =>
