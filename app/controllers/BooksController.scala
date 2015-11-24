@@ -13,13 +13,14 @@ object BooksController extends Controller {
   }
 
   def saveBook = (UserAction andThen AuthenticationCheckAction)(BodyParsers.parse.json) { request =>
-    val b = request.body.validate[Book]
-    b match {
-      case JsSuccess(book, _) =>
-        Created(Json.toJson(addBook(book)))
-      case errors@JsError(_) =>
+    request.body.validate[Book].fold(
+      errors => {
         BadRequest(Json.obj("message" -> JsError.toJson(errors)))
-    }
+      },
+      book => {
+        Created(Json.toJson(addBook(book)))
+      }
+    )
   }
 
   def findBook(bookId: String) = (UserAction andThen SpecificBookAction(bookId) andThen BookPermissionCheckAction) { request =>
