@@ -7,6 +7,8 @@ The main focus that I have is
 * Managing DB (Using Plain old SQL and anorm)
 * Managing input validation (Using Play's Json parsers and validators)
 * Managing Authentication and authorization (using Play actions and action compositions)
+* Managing testing in a reasonable fashion, including full integration tests on the API, using 
+headers, status codes etc
 * To have fun!
 
 Based on the activator [template](https://typesafe.com/activator/templates) for implementing Json based [REST API](https://www.playframework.com/documentation/2.3.x/ScalaJsonHttp)
