@@ -40,10 +40,10 @@ class UserRequest[A](val username: Option[String], request: Request[A]) extends 
 
 object AuthenticationCheckAction extends ActionFilter[UserRequest] {
   def filter[A](request: UserRequest[A]) = Future.successful {
-    if (request.username.orNull != "martin")
-      Option(Forbidden(Json.obj("message" -> "forbidden")))
-    else
-      None
+    request.username match {
+      case Some("martin") => None
+      case _ => Option(Forbidden(Json.obj("message" -> "forbidden")))
+    }
   }
 }
 
@@ -59,10 +59,10 @@ class BookRequest[A](val book: Book, request: UserRequest[A]) extends WrappedReq
 
 object BookPermissionCheckAction extends ActionFilter[BookRequest] {
   def filter[A](request: BookRequest[A]) = Future.successful {
-    if (request.username.get != request.book.author)
-      Option(Forbidden(Json.obj("message" -> "forbidden, you did not write the book")))
-    else
-      None
+    request.username match {
+      case Some(request.book.author) => None
+      case _ => Option(Forbidden(Json.obj("message" -> "forbidden, you did not write the book")))
+    }
   }
 }
 
