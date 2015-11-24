@@ -6,8 +6,8 @@ import play.api.mvc._
 import scala.concurrent.Future
 import play.api.mvc.Results._
 
-object BooksController extends Controller {
-
+trait BooksController {
+  this: Controller =>
   def listBooks = (UserAction andThen AuthenticationCheckAction) { request =>
     Ok(Json.toJson(findBooksForUser(request.username.get)))
   }
@@ -35,6 +35,8 @@ object BooksController extends Controller {
     }
   }
 }
+
+object BooksController extends Controller with BooksController
 
 class UserRequest[A](val username: Option[String], request: Request[A]) extends WrappedRequest[A](request)
 
