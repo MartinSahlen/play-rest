@@ -33,7 +33,7 @@ object Book {
 
   var books = Seq[Book]()
 
-  def findById(id: String) : Option[Book] = {
+  def findById(id: String) = {
     books.filter(el => el.id.equals(Option.apply(id))) match {
       case Nil => Option.empty
       case el::Nil => Option(el)
@@ -44,7 +44,7 @@ object Book {
   def findBooksForUser(username: String) =  books.filter(el => el.author.equals(username))
 
   def findById(id: String, username: String) : Option[Book] = {
-    books.filter(el => el.id.equals(Option.apply(id)) && el.author == username) match {
+    books.filter(el => (el.id equals Option.apply(id)) && (el.author equals username)) match {
       case Nil => Option.empty
       case el::Nil => Option(el)
       case el::tail => throw new Exception
@@ -53,9 +53,9 @@ object Book {
 
   def canUserAccessBook(user: String, book: Book) = book.author == user
 
-  def setId(book: Book) : Book = Book(book.name, book.author, Option(UUID.randomUUID.toString))
+  def setId(book: Book) = Book(book.name, book.author, Option(UUID.randomUUID.toString))
 
-  def addBook(book: Book) : Book = {
+  def addBook(book: Book) = {
     books = books :+ setId(book)
     DB.withConnection { implicit c =>
       SQL("insert into book(name, author, id) values ({name}, {author}, {id})")
