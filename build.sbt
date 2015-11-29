@@ -8,7 +8,8 @@ libraryDependencies ++= Seq(
   jdbc,
   evolutions,
   "com.typesafe.play" %% "anorm" % "2.4.0",
-  "org.scalatestplus" %% "play" % "1.4.0-M3" % "test"
+  "org.scalatestplus" %% "play" % "1.4.0-M3" % "test",
+  "com.kenshoo" %% "metrics-play" % "2.4.0_0.4.1"
 )
 
 lazy val root = project.in(file(".")).enablePlugins(PlayScala)
