@@ -2,12 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
+# API Routes
 GET      /books                           controllers.BooksController.listBooks
 GET      /books/:bookId                   controllers.BooksController.findBook(bookId: String)
 POST     /books                           controllers.BooksController.saveBook
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file)
-
-GET     /admin/metrics              @com.kenshoo.play.metrics.MetricsController.metrics
+# Maintenance etc
+GET     /admin/metrics                    @com.kenshoo.play.metrics.MetricsController.metrics
+GET     /swagger.json                     @controllers.ApiHelpController.getResources

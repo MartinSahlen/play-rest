@@ -3,6 +3,7 @@ package models
 import java.util.UUID
 
 import anorm._
+import io.swagger.annotations.{ApiModelProperty, ApiModel}
 import play.api.db.DB
 import play.api.Play.current
 
@@ -10,6 +11,12 @@ import play.api.libs.json._
 import play.api.libs.json.Reads._
 import play.api.libs.functional.syntax._
 
+@ApiModel
+case class Book(
+                 @ApiModelProperty(required=true) name: String,
+                 @ApiModelProperty(required=true) author: String,
+                 @ApiModelProperty(dataType="String", required=false) id: Option[String]
+               )
 
 object Book {
 
@@ -17,7 +24,6 @@ object Book {
   final private val AUTHOR_JSON_PROPERTY = "my_author"
   final private val ID_JSON_PROPERTY = "id"
 
-  case class Book(name: String, author: String, id: Option[String])
 
   implicit val bookWrites: Writes[Book] = (
       (JsPath \ NAME_JSON_PROPERTY).write[String] and
