@@ -110,5 +110,3 @@ object BookPermissionCheckAction extends ActionFilter[BookRequest] {
     }
   }
 }
-
-
