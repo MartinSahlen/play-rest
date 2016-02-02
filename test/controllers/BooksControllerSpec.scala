@@ -16,9 +16,10 @@ class BooksControllerSpec extends PlaySpec with Results {
   class TestBooksController() extends Controller with BooksController
 
   "BooksController listBooks#" should {
-    "should return valid JSON" in {
+    "Authenticated request should return valid JSON" in {
       val controller = new TestBooksController()
-      val result: Future[Result] = controller.listBooks().apply(FakeRequest())
+      val request = FakeRequest().withHeaders(("X-Username", "Martin"))
+      val result: Future[Result] = controller.listBooks().apply(request)
       val bodyJson: JsValue = contentAsJson(result)
       bodyJson.validate[Seq[Book]].isSuccess mustEqual true
       status(result) mustEqual  OK
