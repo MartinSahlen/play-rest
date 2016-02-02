@@ -1,5 +1,6 @@
 package controllers
 
+import models.Book
 import models.Book._
 import play.api.libs.json.JsValue
 
