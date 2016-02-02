@@ -14,11 +14,16 @@ class SwaggerAuthFilter extends AbstractSpecFilter {
                                   params: JMap[String, JList[String]],
                                   cookies: JMap[String, String],
                                   headers: JMap[String, JList[String]]): Boolean = {
-    val authHeader = headers.get("X-Username")
-    if (authHeader.size > 0) {
-      println(authHeader.get(0))
+    val authHeaderOption = Option(headers.get("X-Username"))
+    authHeaderOption match {
+      case Some(authHeader) =>
+        if (!authHeader.isEmpty) {
+          val token = authHeader.get(0)
+          logger.info(s"Auth header token: $token")
+        }
+      case _ =>
+        logger.info(s"No auth header present")
     }
-    logger.info(s"Auth header: $authHeader")
     true
   }
 
