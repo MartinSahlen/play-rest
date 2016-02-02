@@ -3,6 +3,7 @@ package controllers
 import io.swagger.annotations._
 import models.Book
 import models.Book._
+import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
 import scala.concurrent.Future
@@ -84,10 +85,13 @@ object BooksController extends Controller with BooksController
 class UserRequest[A](val username: Option[String], request: Request[A]) extends WrappedRequest[A](request)
 
 object AuthenticationCheckAction extends ActionFilter[UserRequest] {
+  private val logger = Logger(this.getClass)
   def filter[A](request: UserRequest[A]) = Future.successful {
     request.username match {
       case Some("Martin") => None
-      case _ => Option(Forbidden(Json.obj("message" -> "forbidden")))
+      case _ =>
+        println("NOOO")
+        Option(Forbidden(Json.obj("message" -> "forbidden")))
     }
   }
 }
