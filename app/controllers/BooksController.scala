@@ -90,7 +90,7 @@ object AuthenticationCheckAction extends ActionFilter[UserRequest] {
     request.username match {
       case Some("Martin") => None
       case _ =>
-        println("NOOO")
+        logger.info("Not authenticated, aborting request")
         Option(Forbidden(Json.obj("message" -> "forbidden")))
     }
   }
