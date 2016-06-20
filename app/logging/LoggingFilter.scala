@@ -1,11 +1,13 @@
 package logging
 
+import akka.stream.Materializer
+import com.google.inject.Inject
 import play.api.Logger
 import play.api.mvc._
-import scala.concurrent.Future
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-class LoggingFilter extends Filter {
+import scala.concurrent.{ExecutionContext, Future}
+
+class LoggingFilter @Inject() (implicit val mat: Materializer, ec: ExecutionContext) extends Filter {
 
   val logger = Logger(this.getClass)
 
