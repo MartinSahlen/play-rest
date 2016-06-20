@@ -9,7 +9,7 @@ libraryDependencies ++= Seq(
 )
 
 lazy val root = project.in(file(".")).enablePlugins(PlayScala).dependsOn(swagger).dependsOn(metrics)
-lazy val swagger = RootProject(uri("ssh://git@github.com/CreditCardsCom/swagger-play.git"))
-lazy val metrics = RootProject(uri("ssh://git@github.com/7thsense/metrics-play.git"))
+lazy val swagger = RootProject(uri("git://github.com/CreditCardsCom/swagger-play.git"))
+lazy val metrics = RootProject(uri("git://github.com/7thsense/metrics-play.git"))
 
 
